@@ -58,3 +58,7 @@ export const generateHash = (value: string): string => {
 
   return createHash('sha256').update(value).digest('hex');
 };
+
+export function generateUniqueId(): string {
+  return `${Date.now()}-${Math.floor(Math.random() * 100000)}`;
+}

@@ -1,12 +1,17 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  experimental: {
-    serverActions: {
-      bodySizeLimit: '2mb',
-    }
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'products-categories-images.s3.ap-south-1.amazonaws.com',
+        port: '',
+        pathname: '/categories-images/**',
+      }
+    ]
   }
+  
 };
 
 export default nextConfig;

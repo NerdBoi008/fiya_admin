@@ -17,12 +17,13 @@ import {
 import Image from 'next/image'
 import { Input } from '@/components/ui/input'
 import CustomInput from '@/components/local/CustomInput'
-import { addNewCategory } from '@/lib/appwrite/server/database.actions'
 import { popularProductsData } from '@/lib/mock-data'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import CategoryProduct from '@/components/local/CategoryProduct'
 import { InfoIcon, LoaderCircleIcon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import { addCategoryDynamoDb } from '@/lib/aws/dynamoDb/actions'
+import { ImageFileUploadSize } from '@/lib/constants'
 
 
 const editCategoryFormSchema = z.object({
@@ -37,8 +38,8 @@ const editCategoryFormSchema = z.object({
             { message: 'Invalid file type. Only JPEG, PNG, and GIF images are allowed.'}
         )
         .refine(
-            (file) => file.size <= 2 * 1024 * 1024,
-            { message: 'File size exceeds the limit (2MB).' }
+            (file) => file.size <= ImageFileUploadSize,
+            { message: `File size exceeds the limit (${ImageFileUploadSize / 1024}kb).` }
         ),
     productsId: z.array(z.string().min(1).max(50).trim()).min(1, "At least one product must be selected"),
 })
@@ -67,7 +68,8 @@ const AddCategory = () => {
           
         try {
           
-            const category = await addNewCategory(categoryName, imgFile, productsId);
+            // const category = await addNewCategory(categoryName, imgFile, productsId);
+            const category = await addCategoryDynamoDb(categoryName, imgFile, productsId);
             
             if (category) {
                 router.push('/');

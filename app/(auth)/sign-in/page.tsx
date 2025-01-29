@@ -16,12 +16,12 @@ import {
 import { InfoIcon, LoaderCircleIcon } from 'lucide-react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { signIn } from '@/lib/appwrite/server/user.actions'
 import Link from 'next/link'
 import { Separator } from '@/components/ui/separator'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import CustomInput from '@/components/local/CustomInput'
 import { Checkbox } from '@/components/ui/checkbox'
+import { singInWithCognito } from '@/lib/aws/cognito/actions'
 
 const signInFormSchema = z.object({
     email: z.string().email('Please enter valid email').trim(),
@@ -64,7 +64,8 @@ const SignInPage = () => {
   
       try {
         
-         const isSignedIn = await signIn(email, password, rememberMe);
+        //  const isSignedIn = await signIn(email, password, rememberMe);
+         const isSignedIn = await singInWithCognito(email, password, rememberMe);
   
         if (isSignedIn) {
           router.push('/');

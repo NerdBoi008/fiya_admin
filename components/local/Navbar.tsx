@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { LogOutIcon, User2Icon } from 'lucide-react'
 import { Skeleton } from '../ui/skeleton'
+import { getUserCognito } from '@/lib/aws/cognito/actions'
 
   
 const Navbar = () => {

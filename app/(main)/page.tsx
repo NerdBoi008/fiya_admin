@@ -25,6 +25,7 @@ import EditCategoryForm from "@/components/forms/EditCategoryForm";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useRouter } from "next/navigation";
+import useStore from "@/lib/store/useStore";
 
 export default function Home() {
 
@@ -36,10 +37,16 @@ export default function Home() {
   const [isOpen, setIsOpen] = useState(false)
   const [productsCount, setProductsCount] = useState<number>(0)
   const [selectedCategoryProductsCount, setSelectedCategoryProductsCount] = useState<number>(0)
+  const { categories: categoriesApi, products, fetchCategories, fetchProducts } = useStore();
+
+  useEffect(() => {
+    if (!categories) fetchCategories();
+    if (!products) fetchProducts();
+  }, [categoriesApi, products, fetchCategories, fetchProducts]);
 
   useEffect(() => {
 
-    setCategories(categoriesData)
+    setCategories(categories)
     const products: Product[] = [] 
     
     selectedCategory?.productsId.forEach((id) => {

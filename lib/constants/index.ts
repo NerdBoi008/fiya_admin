@@ -1,0 +1,1 @@
+export const ImageFileUploadSize = 100 * 1024; // 100kb

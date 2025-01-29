@@ -23,7 +23,7 @@ import { useRouter } from 'next/navigation'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { InfoIcon, LoaderCircleIcon } from 'lucide-react'
 import CustomInput from '@/components/local/CustomInput'
-import { signUpWithEmail } from '@/lib/appwrite/server/user.actions'
+import { singUpWithCognito } from '@/lib/aws/cognito/actions'
 
 
 const formSchema = z.object({
@@ -43,6 +43,10 @@ const formSchema = z.object({
   phone: z
     .string()
     .regex(/^\+?[0-9\s-]{10,15}$/, "Invalid phone number format"),
+  address: z.
+    string().
+    min(5, 'Address must be longer than 5 characters').
+    max(200, 'Address must be less than 200 characters'),
   receiveUpdates: z.boolean().default(false),
   rememberMe: z.boolean().default(false),
 }).refine((data) => data.password === data.confirmPassword, {
@@ -68,19 +72,21 @@ const SignUpPage = () => {
       password: "",
       confirmPassword: "",
       phone: "",
+      address: "",
       receiveUpdates: false,
       rememberMe: false,
     },
   })
 
-  async function onSubmit({ firstName, lastName, email, password, phone, receiveUpdates, rememberMe}: z.infer<typeof formSchema>) {
+  async function onSubmit({ firstName, lastName, email, password, phone, receiveUpdates, rememberMe, address}: z.infer<typeof formSchema>) {
 
     setLoading(true);
     setError(null);
 
     try {
       
-      const response = await signUpWithEmail(firstName, lastName, email, password, phone, receiveUpdates, rememberMe)
+      // const response = await signUpWithEmail(firstName, lastName, email, password, phone, receiveUpdates, rememberMe)
+      const response = await singUpWithCognito(firstName, lastName, email, password, phone, receiveUpdates, rememberMe, address);
 
       if (response) {
         router.push('/')
@@ -95,7 +101,7 @@ const SignUpPage = () => {
   }
 
   return (
-    <aside className='flex flex-col items-center justify-center p-10 gap-2 '>
+    <aside className='flex flex-col items-center justify-center p-10 gap-2 min-h-screen'>
       <div className='min-w-[500px] max-w-[500px]'>
           <Link href="/">
             <Image
@@ -252,6 +258,25 @@ const SignUpPage = () => {
               )}
             />
           </div>
+
+          <FormField
+              control={form.control}
+              name='address'
+              render={({ field }) => (
+                <FormItem className='w-full'>
+                  <FormLabel>Address</FormLabel>
+                  <FormControl>
+                    <CustomInput
+                        field={field}
+                        leadingIconSrc='/icons/location--company.svg'
+                        type='text'
+                        placeholder="205-A Santosh nagar, Mumbai, India"
+                      />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             
           <FormField
               control={form.control}

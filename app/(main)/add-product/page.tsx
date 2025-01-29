@@ -20,8 +20,9 @@ import { Input } from '@/components/ui/input'
 import CustomInput from '@/components/local/CustomInput'
 import { Textarea } from '@/components/ui/textarea'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
-import { addNewProduct } from '@/lib/appwrite/server/database.actions'
 import { useRouter } from 'next/navigation'
+import { ImageFileUploadSize } from '@/lib/constants'
+import { addProductDynamoDb } from '@/lib/aws/dynamoDb/actions'
 
 
 const editCategoryFormSchema = z.object({
@@ -32,8 +33,8 @@ const editCategoryFormSchema = z.object({
             { message: 'Invalid file type. Only JPEG, PNG, and GIF images are allowed.'}
         )
         .refine(
-            (file) => file.size <= 5 * 1024,
-            { message: `File size exceeds the limit (5kb).` }
+            (file) => file.size <= ImageFileUploadSize,
+            { message: `File size exceeds the limit (${ImageFileUploadSize / 1024}kb).` }
         ),
     otherImgSrcSet: z
         .array(z.instanceof(File) // Validate as File
@@ -42,8 +43,8 @@ const editCategoryFormSchema = z.object({
             { message: 'Invalid file type. Only JPEG, PNG, and GIF images are allowed.'}
         )
         .refine(
-            (file) => file.size <= 2 * 1024 * 1024,
-            { message: 'File size exceeds the limit (2MB).' }
+            (file) => file.size <= ImageFileUploadSize,
+            { message: `File size exceeds the limit (${ImageFileUploadSize / 1024}kb).` }
         ))
         .min(1, 'At least choose one image.'),
     name: z.string().min(2).max(50).trim(),
@@ -115,7 +116,7 @@ const AddProductPage = () => {
           
         try {
           
-            const product = await addNewProduct(
+            const product = await addProductDynamoDb(
                 mainImage,
                 otherImgSrcSet,
                 name,

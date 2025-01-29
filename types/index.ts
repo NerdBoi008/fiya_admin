@@ -7,10 +7,16 @@ export declare type User = {
     phone: string,
     receiveUpdates: boolean,
     profileImgSrc: string,
+    address: string,
 } | null;
 
 export declare type UserPreferences = {
     receiveUpdates: boolean,
+}
+
+export declare type IndexedArrayImages = {
+    index: number,
+    imgSrc: string,
 }
 
 export declare type Product = {
