@@ -2,15 +2,15 @@ import { Category, Product } from "@/types";
 import { create } from "zustand";
 
 interface StroreState {
-    categories: Category[];
-    products: Product[];
+    categories: Category[] | null;
+    products: Product[] | null;
     fetchCategories: () => void;
     fetchProducts: () => void;
 }
 
 const useStore = create<StroreState>((set) => ({
-    categories: [],
-    products: [],
+    categories: null,
+    products: null,
 
     fetchCategories: async () => {
         try {

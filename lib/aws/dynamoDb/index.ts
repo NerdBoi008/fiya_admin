@@ -24,6 +24,7 @@ import {
     dynamoDbConfig,
     s3Config
 } from "../config";
+import sharp from "sharp";
 
 const cognitoIdentityClient = new CognitoIdentityClient({
     region: congitoConfig.region,
@@ -113,11 +114,19 @@ export async function insertIntoBucket(
         },
     })
 
+    const imageBuffer = Buffer.from(await file.arrayBuffer());
+
+    const miniImage = await sharp(imageBuffer)        
+        .toFormat('webp', {
+            quality: 80,
+        })
+        .toBuffer();
+
     const command: PutObjectCommandInput = {
         Bucket: bucketName,
         Key: key,
-        Body: Buffer.from(await file.arrayBuffer()),
-        ContentType: file.type,
+        Body: miniImage,
+        ContentType: 'image/webp',
     };
 
     if (publicAvailability) {

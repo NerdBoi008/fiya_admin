@@ -32,17 +32,18 @@ export default function Home() {
   const router = useRouter();
 
   const [categories, setCategories] = useState<Category[]>()
+  const [products, setProducts] = useState<Product[]>()
   const [selectedCategory, setSelectedCategory] = useState<Category>(categoriesData[0])
   const [selectedProduct, setSelectedProduct] = useState<Product[]>()
   const [isOpen, setIsOpen] = useState(false)
   const [productsCount, setProductsCount] = useState<number>(0)
   const [selectedCategoryProductsCount, setSelectedCategoryProductsCount] = useState<number>(0)
-  const { categories: categoriesApi, products, fetchCategories, fetchProducts } = useStore();
+  const { categories: categoriesApi, products: productsApi, fetchCategories, fetchProducts } = useStore();
 
   useEffect(() => {
-    if (!categories) fetchCategories();
-    if (!products) fetchProducts();
-  }, [categoriesApi, products, fetchCategories, fetchProducts]);
+    if (!categoriesApi) fetchCategories();
+    if (!productsApi) fetchProducts();
+  }, [categoriesApi, productsApi, fetchCategories, fetchProducts]);
 
   useEffect(() => {
 
