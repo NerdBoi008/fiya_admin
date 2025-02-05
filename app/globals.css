@@ -4,7 +4,7 @@
 
 @layer components {
   .container-side-padding {
-    @apply px-10 lg:px-14;
+    @apply px-5 md:px-10 lg:px-14;
   }
   
   .page-background {

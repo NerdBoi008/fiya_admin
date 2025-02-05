@@ -4,8 +4,8 @@ import { create } from "zustand";
 interface StroreState {
     categories: Category[] | null;
     products: Product[] | null;
-    fetchCategories: () => void;
-    fetchProducts: () => void;
+    fetchCategories: () => Promise<boolean>;
+    fetchProducts: () => Promise<boolean>;
 }
 
 const useStore = create<StroreState>((set) => ({
@@ -17,8 +17,10 @@ const useStore = create<StroreState>((set) => ({
             const res = await fetch("/api/categories");
             const data = await res.json();
             set({ categories: data });
+            return true;
         } catch (error) {
             console.error("Error fetching categories:", error);
+            return false;
         }
     },
 
@@ -27,8 +29,10 @@ const useStore = create<StroreState>((set) => ({
             const res = await fetch("/api/products");
             const data = await res.json();
             set({ products: data });
+            return true;
         } catch (error) {
             console.error("Error fetching products:", error);
+            return false;
         }
     },
 }));

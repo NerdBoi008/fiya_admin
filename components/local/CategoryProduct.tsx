@@ -25,7 +25,7 @@ const CategoryProduct = ({ name, imgSrc, form, weight, selected, onClick }: Cate
                 height={300}
                 width={300}
                 alt='category image'
-                className='object-cover'
+                className='object-cover rounded-sm h-32'
             />
             <p className=''>{name}</p>
             <div className='flex justify-between'>

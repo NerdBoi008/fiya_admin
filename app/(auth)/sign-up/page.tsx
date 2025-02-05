@@ -101,40 +101,39 @@ const SignUpPage = () => {
   }
 
   return (
-    <aside className='flex flex-col items-center justify-center p-10 gap-2 min-h-screen'>
-      <div className='min-w-[500px] max-w-[500px]'>
-          <Link href="/">
-            <Image
-                src='/assets/logo.svg'
-                height={34}
-                width={100}
-                alt='logo'
-            />
-        </Link>
-          <h1 className='text-4xl font-bold text-primary'>Create your Account</h1>
-          <h6 className='text-md text-muted-foreground'>Welcome! choose your prefred way of sing up:</h6>
-          
-          <Button variant='outline' className='w-full text-primary border-2 mt-5'>
-            <Image src='/assets/google-logo-color.svg' height={24} width={24} alt='google logo' /> Continue with Google
-          </Button>
+    <aside className='flex flex-col items-center justify-center p-10 gap-2 min-h-screen container-side-padding'>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3 flex flex-col">
+          <div className='w-full'>
+                <Link href="/">
+                  <Image
+                      src='/assets/logo.svg'
+                      height={34}
+                      width={100}
+                      alt='logo'
+                  />
+                </Link>
+                <h1 className='text-4xl font-bold text-primary'>Create your Account</h1>
+                <h6 className='text-md text-muted-foreground'>Welcome! choose your prefred way of sing up:</h6>
+                
+                <Button variant='outline' className='w-full text-primary border-2 mt-5'>
+                  <Image src='/assets/google-logo-color.svg' height={24} width={24} alt='google logo' /> Continue with Google
+                </Button>
 
-          <div className='flex items-center justify-around gap-3 w-full'>
-            <Separator className='w-24'/>
-            <p className='text-center text-muted-foreground text-sm'>or sing up with email</p>
-            <Separator className='w-24'/>
-        </div>
-      </div>
-      
-
-        <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3 flex flex-col min-w-[500px] max-w-[500px]">
-            {error && (
+                <div className='flex items-center justify-around gap-3 w-full'>
+                  <Separator className='w-24'/>
+                  <p className='text-center text-muted-foreground text-sm'>or sing up with email</p>
+                  <Separator className='w-24'/>
+              </div>
+          </div>
+            
+          {error && (
               <Alert variant={'destructive'}>
                 <InfoIcon />
                 <AlertTitle className='hidden'>Error!</AlertTitle>
                 <AlertDescription>{error}</AlertDescription>
               </Alert>
-            )}
+          )}
           
           <div className='flex gap-5'>
             <FormField
@@ -301,11 +300,11 @@ const SignUpPage = () => {
               )}
           />
 
-              <FormField
-                  control={form.control}
-                  name="receiveUpdates"
-                  render={({ field }) => (
-                    <FormItem className='flex items-center gap-2'>
+          <FormField
+            control={form.control}
+            name="receiveUpdates"
+            render={({ field }) => (
+              <FormItem className='flex items-center gap-2'>
                       <FormControl>
                         <Checkbox
                           checked={field.value}
@@ -316,28 +315,28 @@ const SignUpPage = () => {
                         <FormLabel className='cursor-pointer'>
                         Do you want to receive updates about new products arrival, offers, etc. on mentioned phone or email.
                         </FormLabel>
-                    </FormItem>
-                  )}
-              />
+              </FormItem>
+            )}
+          />
 
-              <FormField
-                  control={form.control}
-                  name="rememberMe"
-                  render={({ field }) => (
-                    <FormItem className='flex items-center gap-2'>
-                      <FormControl>
-                        <Checkbox
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                          className='mt-[4px]'
-                        />
-                      </FormControl>
-                        <FormLabel className='cursor-pointer'>
-                          Remeber me
-                        </FormLabel>
-                    </FormItem>
-                  )}
-              />
+          <FormField
+            control={form.control}
+            name="rememberMe"
+            render={({ field }) => (
+              <FormItem className='flex items-center gap-2'>
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                      className='mt-[4px]'
+                    />
+                  </FormControl>
+                    <FormLabel className='cursor-pointer'>
+                      Remeber me
+                    </FormLabel>
+              </FormItem>
+            )}
+          />
           
           <Button type="submit" className='w-full text-white ' disabled={loading}>
             {loading ? (
@@ -348,11 +347,11 @@ const SignUpPage = () => {
             ): (
                 <p>Sing Up</p>
             )}
-            </Button>
-          </form>
-        </Form>
-        <p className='self-center mt-10'>Already have an account? <Link href='/sign-in' className='text-primary underline'>Sign in</Link></p>
-      </aside>
+          </Button>
+        </form>
+      </Form>
+      <p className='self-center mt-10'>Already have an account? <Link href='/sign-in' className='text-primary underline'>Sign in</Link></p>
+    </aside>
   )
 }
 

@@ -80,129 +80,129 @@ const SignInPage = () => {
   }
 
   return (
-      <div className='min-h-screen flex items-center justify-center'>
-          <div className='max-w-96 py-20'>
-            <Link href="/">
-                <Image
-                    src='/assets/logo.svg'
-                    height={34}
-                    width={100}
-                    alt='logo'
-                />
-            </Link>
-            <h1 className='text-4xl font-bold text-primary'>Sign in into your Account</h1>
-            <h6 className='text-md text-muted-foreground'>Welcome back! choose your prefred way of sing in:</h6>
-        
-            <Button variant='outline' className='w-full text-primary border-2 mt-5'>
-            <Image src='/assets/google-logo-color.svg' height={24} width={24} alt='google logo' /> Google
-            </Button>
-
-            <div className='flex items-center justify-around gap-3 w-full'>
-                <Separator className='w-24'/>
-                <p className='text-center text-muted-foreground text-sm w-fit'>or sign in with email</p>
-                <Separator className='w-24'/>
-            </div>
-        
-            {error && (
-                <Alert variant={'destructive'}>
-                    <InfoIcon />
-                    <AlertTitle className='hidden'>Error!</AlertTitle>
-                    <AlertDescription>{error}</AlertDescription>
-                </Alert>
-            )}
+      <div className='min-h-screen flex items-center justify-center container-side-padding'>
+            <div className='max-w-96 py-20'>
+                <Link href="/">
+                    <Image
+                        src='/assets/logo.svg'
+                        height={34}
+                        width={100}
+                        alt='logo'
+                    />
+                </Link>
+                <h1 className='text-4xl font-bold text-primary'>Sign in into your Account</h1>
+                <h6 className='text-md text-muted-foreground'>Welcome back! choose your prefred way of sing in:</h6>
             
-            <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 max-h-96">
-                    <FormField
-                        control={form.control}
-                        name="email"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Email</FormLabel>
-                                    <FormControl>
-                                        <CustomInput
-                                            field={field}
-                                            leadingIconSrc={'/icons/email.svg'}
-                                            type={'text'}
-                                            placeholder={'example@email.com'}
-                                        />
-                                </FormControl>
-                                
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    
-                    <FormField
-                        control={form.control}
-                        name="password"
-                        render={({ field }) => (
-                            <FormItem>
-                            <FormLabel>Password</FormLabel>
-                            <FormControl>
-                                <CustomInput
-                                    field={field}
-                                    leadingIconSrc='/icons/password.svg'
-                                    type={passwordInputProps.type}
-                                    placeholder="m33^dg%$"
-                                    trailingIconSrc={passwordInputProps?.trailingIconSrc}
-                                    trailingAction={() => {
-                                        setPasswordInputProps(
-                                        (passwordInputProps.type === 'password') ?
-                                            {
-                                            trailingIconSrc: '/icons/view--off.svg',
-                                            type: 'text'
-                                            } : {
-                                            trailingIconSrc: '/icons/view.svg',
-                                            type: 'password'
-                                            }
-                                        )
-                                    }}
-                                />
-                            </FormControl>
-                            <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                <div className='flex justify-between'>
+                <Button variant='outline' className='w-full text-primary border-2 mt-5'>
+                <Image src='/assets/google-logo-color.svg' height={24} width={24} alt='google logo' /> Google
+                </Button>
+
+                <div className='flex items-center justify-around gap-3 w-full'>
+                    <Separator className='w-24'/>
+                    <p className='text-center text-muted-foreground text-sm w-fit'>or sign in with email</p>
+                    <Separator className='w-24'/>
+                </div>
+            
+                {error && (
+                    <Alert variant={'destructive'}>
+                        <InfoIcon />
+                        <AlertTitle className='hidden'>Error!</AlertTitle>
+                        <AlertDescription>{error}</AlertDescription>
+                    </Alert>
+                )}
+                
+                <Form {...form}>
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 max-h-96">
                         <FormField
                             control={form.control}
-                            name="rememberMe"
+                            name="email"
                             render={({ field }) => (
-                                <FormItem className='flex items-center gap-1'>
-                                <FormControl>
-                                    <Checkbox
-                                        checked={field.value}
-                                        onCheckedChange={field.onChange}
-                                        className='mt-[4px]'
-                                    />
-                                </FormControl>
-                                    <FormLabel className='cursor-pointer'>
-                                        Remember me
-                                    </FormLabel>
+                                <FormItem>
+                                    <FormLabel>Email</FormLabel>
+                                        <FormControl>
+                                            <CustomInput
+                                                field={field}
+                                                leadingIconSrc={'/icons/email.svg'}
+                                                type={'text'}
+                                                placeholder={'example@email.com'}
+                                            />
+                                    </FormControl>
+                                    
+                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
                         
-                        <Link href='#' className='underline text-primary self-end'>Forgot password?</Link>
-                    </div>
-                    
-                    <Button type="submit" className='w-full text-white ' disabled={loading}>
-                        {loading ? (
-                        <div className='flex gap-3'>
-                            <LoaderCircleIcon className='animate-spin'/>
-                            <p>Siging in...</p>
+                        <FormField
+                            control={form.control}
+                            name="password"
+                            render={({ field }) => (
+                                <FormItem>
+                                <FormLabel>Password</FormLabel>
+                                <FormControl>
+                                    <CustomInput
+                                        field={field}
+                                        leadingIconSrc='/icons/password.svg'
+                                        type={passwordInputProps.type}
+                                        placeholder="m33^dg%$"
+                                        trailingIconSrc={passwordInputProps?.trailingIconSrc}
+                                        trailingAction={() => {
+                                            setPasswordInputProps(
+                                            (passwordInputProps.type === 'password') ?
+                                                {
+                                                trailingIconSrc: '/icons/view--off.svg',
+                                                type: 'text'
+                                                } : {
+                                                trailingIconSrc: '/icons/view.svg',
+                                                type: 'password'
+                                                }
+                                            )
+                                        }}
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                    <div className='flex justify-between'>
+                            <FormField
+                                control={form.control}
+                                name="rememberMe"
+                                render={({ field }) => (
+                                    <FormItem className='flex items-center gap-1'>
+                                    <FormControl>
+                                        <Checkbox
+                                            checked={field.value}
+                                            onCheckedChange={field.onChange}
+                                            className='mt-[4px]'
+                                        />
+                                    </FormControl>
+                                        <FormLabel className='cursor-pointer'>
+                                            Remember me
+                                        </FormLabel>
+                                    </FormItem>
+                                )}
+                            />
+                            
+                            <Link href='#' className='underline text-primary self-end'>Forgot password?</Link>
                         </div>
-                        ): (
-                            <p>Sing in</p>
-                        )}
-                    </Button>
-                </form>
-            </Form>
-            <div className='flex justify-center'>
-                <p className='self-center mt-10'>Don&apos;t have account? <Link href='/sign-up' className='text-primary underline'>Create an account</Link></p>
+                        
+                        <Button type="submit" className='w-full text-white ' disabled={loading}>
+                            {loading ? (
+                            <div className='flex gap-3'>
+                                <LoaderCircleIcon className='animate-spin'/>
+                                <p>Siging in...</p>
+                            </div>
+                            ): (
+                                <p>Sing in</p>
+                            )}
+                        </Button>
+                    </form>
+                </Form>
+                <div className='flex justify-center'>
+                    <p className='self-center mt-10'>Don&apos;t have account? <Link href='/sign-up' className='text-primary underline'>Create an account</Link></p>
+                </div>
             </div>
-        </div>
     </div>
   )
 }

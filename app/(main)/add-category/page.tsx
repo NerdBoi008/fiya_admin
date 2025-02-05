@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -17,13 +17,15 @@ import {
 import Image from 'next/image'
 import { Input } from '@/components/ui/input'
 import CustomInput from '@/components/local/CustomInput'
-import { popularProductsData } from '@/lib/mock-data'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import CategoryProduct from '@/components/local/CategoryProduct'
 import { InfoIcon, LoaderCircleIcon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { addCategoryDynamoDb } from '@/lib/aws/dynamoDb/actions'
 import { ImageFileUploadSize } from '@/lib/constants'
+import useStore from '@/lib/store/useStore'
+import { Product } from '@/types'
+
 
 
 const editCategoryFormSchema = z.object({
@@ -47,12 +49,22 @@ const editCategoryFormSchema = z.object({
 const AddCategory = () => {
 
     const [preview, setPreview] = useState<string | null>();
+    const [products, setProducts] = useState<Product[] | null>();
     const [selectedProducts] = useState<Set<string>>(new Set([]));
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
+    const { categories: categoriesApi, products: productsApi, fetchCategories, fetchProducts } = useStore();
+
     
     const router = useRouter();
     
+    useEffect(() => {
+        if (!categoriesApi) fetchCategories();
+        if (!productsApi) fetchProducts();
+    
+        if (productsApi) setProducts(productsApi);
+    
+    }, [categoriesApi, productsApi, fetchCategories, fetchProducts]);
     
     const form = useForm<z.infer<typeof editCategoryFormSchema>>({
         resolver: zodResolver(editCategoryFormSchema),
@@ -183,7 +195,7 @@ const AddCategory = () => {
                                 <FormControl>
 
                                     <div className='grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6  gap-3'>
-                                        {popularProductsData.map((product) => (
+                                        {products?.map((product) => (
                                             <CategoryProduct
                                                 key={product.productId}
                                                 name={product.name}
